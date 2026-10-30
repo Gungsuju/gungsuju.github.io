@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gungsuju</title>
   <meta name="description" content="Situs pribadi Gungsuju: proyek, skill, dan tautan." />
-  <link rel="stylesheet" href="css/styles.css" />
 
   <!-- Atur tema sebelum render supaya tidak berkedip -->
   <script>
@@ -13,10 +12,46 @@
       var t = localStorage.getItem("theme") ||
         (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
       document.documentElement.setAttribute("data-theme", t);
+      document.documentElement.classList.toggle("dark", t === "dark");
     } catch (e) {}
   </script>
 
-  <!-- Daftar library (tanpa build). Ubah versi di sini jika perlu. -->
+  <!-- Tailwind CSS (Play CDN, tanpa build) -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: { accent: "rgb(var(--accent) / <alpha-value>)" },
+          keyframes: {
+            fade: { from: { opacity: "0" }, to: { opacity: "1" } },
+            pop: {
+              from: { opacity: "0", transform: "translate(-50%, -48%) scale(0.97)" },
+              to: { opacity: "1", transform: "translate(-50%, -50%) scale(1)" },
+            },
+            slide: {
+              from: { opacity: "0", transform: "translateY(-4px)" },
+              to: { opacity: "1", transform: "translateY(0)" },
+            },
+          },
+          animation: {
+            fade: "fade 0.15s ease-out",
+            pop: "pop 0.18s ease-out",
+            slide: "slide 0.2s ease-out",
+          },
+        },
+      },
+    };
+  </script>
+  <!-- Warna aksen: ganti angka RGB di sini (terang / gelap) -->
+  <style>
+    :root { --accent: 79 70 229; }
+    .dark { --accent: 129 140 248; }
+    html { scroll-behavior: smooth; }
+  </style>
+
+  <!-- Daftar library JS (tanpa build). Ubah versi di sini jika perlu. -->
   <script type="importmap">
   {
     "imports": {
@@ -34,7 +69,7 @@
   }
   </script>
 </head>
-<body>
+<body class="bg-stone-50 font-sans leading-relaxed text-stone-900 antialiased dark:bg-stone-950 dark:text-stone-100">
   <div id="root"></div>
   <noscript>Halaman ini membutuhkan JavaScript.</noscript>
   <script type="module" src="js/app.js"></script>
